@@ -10685,7 +10685,6 @@ GameObject:
   - component: {fileID: 1314361654}
   - component: {fileID: 1314361653}
   - component: {fileID: 1314361652}
-  - component: {fileID: 1314361651}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -10708,40 +10707,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1341055326}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1314361651
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1314361649}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72ece51f2901e7445ab60da3685d6b5f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShowDebugText: 0
-  m_ShowCameraFrustum: 1
-  m_IgnoreTimeScale: 0
-  m_WorldUpOverride: {fileID: 0}
-  m_UpdateMethod: 2
-  m_BlendUpdateMethod: 1
-  m_DefaultBlend:
-    m_Style: 1
-    m_Time: 2
-    m_CustomCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-  m_CustomBlends: {fileID: 0}
-  m_CameraCutEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_CameraActivatedEvent:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &1314361652
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11051,7 +11016,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1341055325}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 838afe53546a9f3419cef83209a51257, type: 3}
+  m_Script: {fileID: 11500000, guid: 53ccfc77dfcd4a7780cabd49aba1c0c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1345799879
@@ -15948,7 +15913,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mouseColliderLayerMask:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 0
 --- !u!1 &2011613563
 GameObject:
   m_ObjectHideFlags: 0

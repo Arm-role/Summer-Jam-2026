@@ -1,39 +1,42 @@
 using UnityEngine;
 
-public class InventoryTetrisAssets : MonoBehaviour {
+public class InventoryTetrisAssets : MonoBehaviour
+{
+  public static InventoryTetrisAssets Instance { get; private set; }
 
+  private void Awake()
+  {
+    Instance = this;
+  }
 
-    public static InventoryTetrisAssets Instance { get; private set; }
+  public ItemTetrisSO[] itemTetrisSOArray;
 
-    private void Awake() {
-        Instance = this;
+  public ItemTetrisSO ammo;
+  public ItemTetrisSO grenade;
+  public ItemTetrisSO katana;
+  public ItemTetrisSO medkit;
+  public ItemTetrisSO pistol;
+  public ItemTetrisSO rifle;
+  public ItemTetrisSO shotgun;
+  public ItemTetrisSO money;
+
+  public ItemTetrisSO GetItemTetrisSOFromName(string itemTetrisSOName)
+  {
+    foreach (ItemTetrisSO itemTetrisSO in itemTetrisSOArray)
+    {
+      if (itemTetrisSO.name == itemTetrisSOName)
+      {
+        return itemTetrisSO;
+      }
     }
 
-    public ItemTetrisSO[] itemTetrisSOArray;
-
-    public ItemTetrisSO ammo;
-    public ItemTetrisSO grenade;
-    public ItemTetrisSO katana;
-    public ItemTetrisSO medkit;
-    public ItemTetrisSO pistol;
-    public ItemTetrisSO rifle;
-    public ItemTetrisSO shotgun;
-    public ItemTetrisSO money;
-
-    public ItemTetrisSO GetItemTetrisSOFromName(string itemTetrisSOName) {
-        foreach (ItemTetrisSO itemTetrisSO in itemTetrisSOArray) {
-            if (itemTetrisSO.name == itemTetrisSOName) {
-                return itemTetrisSO;
-            }
-        }
-        return null;
-    }
+    return null;
+  }
 
 
-    public Sprite gridBackground;
-    public Sprite gridBackground_2;
-    public Sprite gridBackground_3;
+  public Sprite gridBackground;
+  public Sprite gridBackground_2;
+  public Sprite gridBackground_3;
 
-    public Transform gridVisual;
-
+  public Transform gridVisual;
 }
