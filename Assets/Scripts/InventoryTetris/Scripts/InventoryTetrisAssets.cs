@@ -11,14 +11,11 @@ public class InventoryTetrisAssets : MonoBehaviour
 
   public ItemTetrisSO[] itemTetrisSOArray;
 
-  public ItemTetrisSO ammo;
-  public ItemTetrisSO grenade;
-  public ItemTetrisSO katana;
-  public ItemTetrisSO medkit;
-  public ItemTetrisSO pistol;
-  public ItemTetrisSO rifle;
-  public ItemTetrisSO shotgun;
-  public ItemTetrisSO money;
+  public ItemTetrisSO Gun1;
+  public ItemTetrisSO NamOb;
+  public ItemTetrisSO PowderBottle;
+  public ItemTetrisSO WaterBowl;
+  public ItemTetrisSO WhiteClay;
 
   public ItemTetrisSO GetItemTetrisSOFromName(string itemTetrisSOName)
   {

@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 220b59c67d3d0e643addbadf2e56a0b2, type: 3}
+  m_Name: Enemy2SO
+  m_EditorClassIdentifier: 
+  enemyName: Enemy2SO
+  hp: 30
+  actions:
+  - {fileID: 11400000, guid: 99e6c993a517a4d4eb4d9e0cd78788ea, type: 2}
+  prefab: {fileID: 8083316154459770234, guid: 641fb256b89e22c439020dc8687540c8, type: 3}
+  spawnOffset: {x: 0, y: 0, z: 0}

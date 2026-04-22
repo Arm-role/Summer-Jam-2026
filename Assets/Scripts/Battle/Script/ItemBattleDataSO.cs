@@ -20,7 +20,6 @@ public enum TargetType
   Self,
   Enemy,
   AllEnemies,
-  AllPlayers,
   RandomEnemy,
   FrontEnemy,
   BackEnemy

@@ -5,6 +5,7 @@ public class BattleItemRunner
 {
   public event Action<BattleActionLog> OnAction;
   public event Action<float> OnCooldownProgress;
+  public event Action<StatusEffectType> OnStatusApplied;
 
   private readonly ItemBattleDataSO data;
   private readonly CooldownModifierSystem modifierSystem;
@@ -12,7 +13,12 @@ public class BattleItemRunner
   private float timer;
   private bool running;
 
-  public BattleItemRunner(ItemBattleDataSO data, CooldownModifierSystem modifierSystem)
+  private float freezeTimer;
+  private float slowTimer;
+  private float slowMultiplier = 1f;
+
+
+  public BattleItemRunner(ItemBattleDataSO data, CooldownModifierSystem modifierSystem = null)
   {
     this.data = data;
     this.modifierSystem = modifierSystem;
@@ -24,16 +30,31 @@ public class BattleItemRunner
   {
     if (!running) return;
 
-    float multiplier = modifierSystem.GetCooldownMultiplier();
+    if (freezeTimer > 0)
+    {
+      freezeTimer -= deltaTime;
+      return;
+    }
 
-    timer -= deltaTime * multiplier;
+    float modifierMultiplier =
+      modifierSystem?.GetCooldownMultiplier() ?? 1f;
 
-    float progress = 1f - (timer / data.cooldown);
+    if (slowTimer > 0)
+    {
+      slowTimer -= deltaTime;
+      modifierMultiplier *= slowMultiplier;
+    }
+
+    timer -= deltaTime * modifierMultiplier;
+
+    float progress =
+      Mathf.Clamp01(1f - (timer / data.cooldown));
+
     OnCooldownProgress?.Invoke(progress);
 
     if (timer > 0) return;
 
-    timer = data.cooldown;
+    timer += data.cooldown;
 
     var log = new BattleActionLog
     {
@@ -45,9 +66,32 @@ public class BattleItemRunner
       duration = data.duration
     };
 
-
     OnAction?.Invoke(log);
   }
+
+  public void ApplyStatusEffect(
+    StatusEffectType effect,
+    float duration)
+  {
+    switch (effect)
+    {
+      case StatusEffectType.Freeze:
+
+        freezeTimer = duration;
+
+        break;
+
+      case StatusEffectType.SlowAttack:
+
+        slowTimer = duration;
+        slowMultiplier = 0.5f;
+
+        break;
+    }
+
+    OnStatusApplied?.Invoke(effect);
+  }
+
 
   public void Start()
   {
