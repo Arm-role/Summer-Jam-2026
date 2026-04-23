@@ -4,9 +4,6 @@ using UnityEngine.UI;
 [CreateAssetMenu()]
 public class ItemTetrisSO : PlacedObjectTypeSO
 {
-  [Header("World Drop")]
-  public GameObject worldPrefab;
-
   public static void CreateVisualGrid(Transform visualParentTransform, ItemTetrisSO itemTetrisSO, float cellSize)
   {
     Transform visualTransform = Instantiate(InventoryTetrisAssets.Instance.gridVisual, visualParentTransform);

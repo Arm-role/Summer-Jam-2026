@@ -1,4 +1,4 @@
-﻿using CodeMonkey.Utils;
+using CodeMonkey.Utils;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -9,15 +9,12 @@ public class InventoryTetrisDragDropSystem : MonoBehaviour
 
   [SerializeField] private List<InventoryTetris> inventoryTetrisList;
 
-  // ── PATCH: เพิ่มแค่บรรทัดนี้ ──────────────────────────────────────────────
-  [SerializeField] private InventoryTetrisDropToWorld dropToWorld; // drag from Inspector
-                                                                   // ─────────────────────────────────────────────────────────────────────────
-
   private InventoryTetris draggingInventoryTetris;
   private PlacedObject draggingPlacedObject;
   private Vector2Int mouseDragGridPositionOffset;
   private Vector2 mouseDragAnchoredPositionOffset;
   private PlacedObjectTypeSO.Dir dir;
+
 
   private void Awake()
   {
@@ -28,7 +25,10 @@ public class InventoryTetrisDragDropSystem : MonoBehaviour
   {
     foreach (InventoryTetris inventoryTetris in inventoryTetrisList)
     {
-      inventoryTetris.OnObjectPlaced += (object sender, PlacedObject placedObject) => { };
+      inventoryTetris.OnObjectPlaced += (object sender, PlacedObject placedObject) =>
+      {
+
+      };
     }
   }
 
@@ -37,24 +37,30 @@ public class InventoryTetrisDragDropSystem : MonoBehaviour
     if (Keyboard.current.rKey.wasPressedThisFrame)
     {
       dir = PlacedObjectTypeSO.GetNextDir(dir);
+
       if (draggingPlacedObject != null)
         draggingPlacedObject.FixCooldownRotation();
     }
 
     if (draggingPlacedObject != null)
     {
+      // Calculate target position to move the dragged item
       RectTransformUtility.ScreenPointToLocalPointInRectangle(draggingInventoryTetris.GetItemContainer(), Mouse.current.position.value, null, out Vector2 targetPosition);
       targetPosition += new Vector2(-mouseDragAnchoredPositionOffset.x, -mouseDragAnchoredPositionOffset.y);
 
+      // Apply rotation offset to target position
       Vector2Int rotationOffset = draggingPlacedObject.GetPlacedObjectTypeSO().GetRotationOffset(dir);
       targetPosition += new Vector2(rotationOffset.x, rotationOffset.y) * draggingInventoryTetris.GetGrid().GetCellSize();
 
-      targetPosition /= 10f;
+      // Snap position
+      targetPosition /= 10f;// draggingInventoryTetris.GetGrid().GetCellSize();
       targetPosition = new Vector2(Mathf.Floor(targetPosition.x), Mathf.Floor(targetPosition.y));
       targetPosition *= 10f;
 
+      // Move and rotate dragged object
       draggingPlacedObject.GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(draggingPlacedObject.GetComponent<RectTransform>().anchoredPosition, targetPosition, Time.deltaTime * 20f);
       draggingPlacedObject.transform.rotation = Quaternion.Lerp(draggingPlacedObject.transform.rotation, Quaternion.Euler(0, 0, -draggingPlacedObject.GetPlacedObjectTypeSO().GetRotationAngle(dir)), Time.deltaTime * 15f);
+
 
       draggingPlacedObject.FixCooldownRotation();
     }
@@ -62,6 +68,7 @@ public class InventoryTetrisDragDropSystem : MonoBehaviour
 
   public void StartedDragging(InventoryTetris inventoryTetris, PlacedObject placedObject)
   {
+    // Started Dragging
     draggingInventoryTetris = inventoryTetris;
     draggingPlacedObject = placedObject;
 
@@ -70,11 +77,16 @@ public class InventoryTetrisDragDropSystem : MonoBehaviour
     RectTransformUtility.ScreenPointToLocalPointInRectangle(inventoryTetris.GetItemContainer(), Mouse.current.position.value, null, out Vector2 anchoredPosition);
     Vector2Int mouseGridPosition = inventoryTetris.GetGridPosition(anchoredPosition);
 
+    // Calculate Grid Position offset from the placedObject origin to the mouseGridPosition
     mouseDragGridPositionOffset = mouseGridPosition - placedObject.GetGridPosition();
+
+    // Calculate the anchored poisiton offset, where exactly on the image the player clicked
     mouseDragAnchoredPositionOffset = anchoredPosition - placedObject.GetComponent<RectTransform>().anchoredPosition;
 
+    // Save initial direction when started draggign
     dir = placedObject.GetDir();
 
+    // Apply rotation offset to drag anchored position offset
     Vector2Int rotationOffset = draggingPlacedObject.GetPlacedObjectTypeSO().GetRotationOffset(dir);
     mouseDragAnchoredPositionOffset += new Vector2(rotationOffset.x, rotationOffset.y) * draggingInventoryTetris.GetGrid().GetCellSize();
   }
@@ -86,10 +98,12 @@ public class InventoryTetrisDragDropSystem : MonoBehaviour
 
     Cursor.visible = true;
 
+    // Remove item from its current inventory
     fromInventoryTetris.RemoveItemAt(placedObject.GetGridPosition());
 
     InventoryTetris toInventoryTetris = null;
 
+    // Find out which InventoryTetris is under the mouse position
     foreach (InventoryTetris inventoryTetris in inventoryTetrisList)
     {
       Vector3 screenPoint = Mouse.current.position.value;
@@ -104,6 +118,7 @@ public class InventoryTetrisDragDropSystem : MonoBehaviour
       }
     }
 
+    // Check if it's on top of a InventoryTetris
     if (toInventoryTetris != null)
     {
       Vector3 screenPoint = Mouse.current.position.value;
@@ -113,36 +128,30 @@ public class InventoryTetrisDragDropSystem : MonoBehaviour
 
       bool tryPlaceItem = toInventoryTetris.TryPlaceItem(placedObject.GetPlacedObjectTypeSO() as ItemTetrisSO, placedObjectOrigin, dir);
 
-      if (!tryPlaceItem)
+      if (tryPlaceItem)
       {
+        // Item placed!
+      }
+      else
+      {
+        // Cannot drop item here!
         TooltipCanvas.ShowTooltip_Static("Cannot Drop Item Here!");
         FunctionTimer.Create(() => { TooltipCanvas.HideTooltip_Static(); }, 2f, "HideTooltip", true, true);
+
+        // Drop on original position
         fromInventoryTetris.TryPlaceItem(placedObject.GetPlacedObjectTypeSO() as ItemTetrisSO, placedObject.GetGridPosition(), placedObject.GetDir());
       }
     }
     else
     {
-      var zone = DropZoneChecker.Instance.GetZoneAtMouse();
+      // Not on top of any Inventory Tetris!
 
-      switch (zone)
-      {
-        case DropZoneChecker.DropZone.World:
-          if (dropToWorld != null)
-            dropToWorld.OnItemDroppedOutsideInventory(
-                placedObject.GetPlacedObjectTypeSO() as ItemTetrisSO);
-          break;
+      // Cannot drop item here!
+      TooltipCanvas.ShowTooltip_Static("Cannot Drop Item Here!");
+      FunctionTimer.Create(() => { TooltipCanvas.HideTooltip_Static(); }, 2f, "HideTooltip", true, true);
 
-        case DropZoneChecker.DropZone.None:
-        default:
-          TooltipCanvas.ShowTooltip_Static("Cannot Drop Item Here!");
-          FunctionTimer.Create(() => TooltipCanvas.HideTooltip_Static(),
-              2f, "HideTooltip", true, true);
-          fromInventoryTetris.TryPlaceItem(
-              placedObject.GetPlacedObjectTypeSO() as ItemTetrisSO,
-              placedObject.GetGridPosition(),
-              placedObject.GetDir());
-          break;
-      }
+      // Drop on original position
+      fromInventoryTetris.TryPlaceItem(placedObject.GetPlacedObjectTypeSO() as ItemTetrisSO, placedObject.GetGridPosition(), placedObject.GetDir());
     }
   }
 

@@ -112,17 +112,6 @@ public class InventoryTetrisManualPlacement : MonoBehaviour
     OnSelectedChanged?.Invoke(this, EventArgs.Empty);
   }
 
-  public void SelectItem(ItemTetrisSO itemSO)
-  {
-    placedObjectTypeSO = itemSO;
-    RefreshSelectedObjectType();
-  }
-
-  public void ClearSelection()
-  {
-    DeselectObjectType();;
-  }
-
   public Vector2 GetCanvasSnappedPosition()
   {
     RectTransformUtility.ScreenPointToLocalPointInRectangle(itemContainer, Mouse.current.position.value, null, out Vector2 anchoredPosition);
