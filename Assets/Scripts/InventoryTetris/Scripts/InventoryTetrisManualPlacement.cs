@@ -73,16 +73,16 @@ public class InventoryTetrisManualPlacement : MonoBehaviour
     }
 
 
-    if (Keyboard.current.digit1Key.wasPressedThisFrame) { placedObjectTypeSO = placedObjectTypeSOList[0]; RefreshSelectedObjectType(); }
-    if (Keyboard.current.digit2Key.wasPressedThisFrame) { placedObjectTypeSO = placedObjectTypeSOList[1]; RefreshSelectedObjectType(); }
-    if (Keyboard.current.digit3Key.wasPressedThisFrame) { placedObjectTypeSO = placedObjectTypeSOList[2]; RefreshSelectedObjectType(); }
-    if (Keyboard.current.digit4Key.wasPressedThisFrame) { placedObjectTypeSO = placedObjectTypeSOList[3]; RefreshSelectedObjectType(); }
-    if (Keyboard.current.digit5Key.wasPressedThisFrame) { placedObjectTypeSO = placedObjectTypeSOList[4]; RefreshSelectedObjectType(); }
-    if (Keyboard.current.digit6Key.wasPressedThisFrame) { placedObjectTypeSO = placedObjectTypeSOList[5]; RefreshSelectedObjectType(); }
-    if (Keyboard.current.digit7Key.wasPressedThisFrame) { placedObjectTypeSO = placedObjectTypeSOList[6]; RefreshSelectedObjectType(); }
-    if (Keyboard.current.digit8Key.wasPressedThisFrame) { placedObjectTypeSO = placedObjectTypeSOList[7]; RefreshSelectedObjectType(); }
+    //if (Keyboard.current.digit1Key.wasPressedThisFrame) { placedObjectTypeSO = placedObjectTypeSOList[0]; RefreshSelectedObjectType(); }
+    //if (Keyboard.current.digit2Key.wasPressedThisFrame) { placedObjectTypeSO = placedObjectTypeSOList[1]; RefreshSelectedObjectType(); }
+    //if (Keyboard.current.digit3Key.wasPressedThisFrame) { placedObjectTypeSO = placedObjectTypeSOList[2]; RefreshSelectedObjectType(); }
+    //if (Keyboard.current.digit4Key.wasPressedThisFrame) { placedObjectTypeSO = placedObjectTypeSOList[3]; RefreshSelectedObjectType(); }
+    //if (Keyboard.current.digit5Key.wasPressedThisFrame) { placedObjectTypeSO = placedObjectTypeSOList[4]; RefreshSelectedObjectType(); }
+    //if (Keyboard.current.digit6Key.wasPressedThisFrame) { placedObjectTypeSO = placedObjectTypeSOList[5]; RefreshSelectedObjectType(); }
+    //if (Keyboard.current.digit7Key.wasPressedThisFrame) { placedObjectTypeSO = placedObjectTypeSOList[6]; RefreshSelectedObjectType(); }
+    //if (Keyboard.current.digit8Key.wasPressedThisFrame) { placedObjectTypeSO = placedObjectTypeSOList[7]; RefreshSelectedObjectType(); }
 
-    if (Keyboard.current.digit0Key.wasPressedThisFrame) { DeselectObjectType(); }
+    //if (Keyboard.current.digit0Key.wasPressedThisFrame) { DeselectObjectType(); }
 
     // Demolish
     /*

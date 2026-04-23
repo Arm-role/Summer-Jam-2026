@@ -102,5 +102,10 @@ public class GameLoopController : MonoBehaviour
   // ─────────────────────────────────────────
   // UI Buttons
   // ─────────────────────────────────────────
-  public void RequestRestart() => EnterPrepare();
+
+  public void RequestRestart()
+  {
+    PlayerData.Instance?.ResetData();
+    EnterPrepare();
+  }
 }

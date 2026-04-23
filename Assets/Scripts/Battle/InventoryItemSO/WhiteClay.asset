@@ -17,3 +17,4 @@ MonoBehaviour:
   visual: {fileID: 6112596893486683221, guid: c3f554f87646e0349a834abd80515b30, type: 3}
   width: 1
   height: 1
+  worldPrefab: {fileID: 7901075224419768179, guid: c3049612952342e478e5e3a8ac4695f1, type: 3}

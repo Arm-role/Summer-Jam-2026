@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(DroppedWorldItem))]
 public class WorldItemDragHandler : MonoBehaviour
@@ -36,11 +37,8 @@ public class WorldItemDragHandler : MonoBehaviour
 
     Cursor.visible = false;
 
-    InventoryTetrisManualPlacement
-    .Instance
-    .SelectItem(itemSO);
-
-    gameObject.SetActive(false);
+    gameObject.GetComponent<SpriteRenderer>().enabled = false;
+    InventoryTetrisManualPlacement.Instance.SelectItem(itemSO);
   }
 
   private void OnMouseUp()
@@ -76,9 +74,7 @@ public class WorldItemDragHandler : MonoBehaviour
         break;
     }
 
-    InventoryTetrisManualPlacement
-       .Instance
-       .ClearSelection();
+    InventoryTetrisManualPlacement.Instance.ClearSelection();
   }
 
   // ─────────────────────────────

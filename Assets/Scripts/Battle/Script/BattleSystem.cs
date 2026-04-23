@@ -15,6 +15,9 @@ public class BattleSystem : MonoBehaviour
   [Header("Battle Setup")]
   [SerializeField] private int playerMaxHp = 100;
 
+  [Header("Economy")]
+  [SerializeField] private int goldRewardOnWin = 20;
+
   [Header("Floating Text")]
   [SerializeField] private FloatingTextConfig floatingTextConfig;
 
@@ -59,7 +62,7 @@ public class BattleSystem : MonoBehaviour
   {
     playerView = view;
 
-    if(player == null) CreatePlayerUnit();
+    if (player == null) CreatePlayerUnit();
     player.BindView(view);
   }
 
@@ -88,7 +91,7 @@ public class BattleSystem : MonoBehaviour
           enemyUnitSO.enemyName,
           enemyUnitSO.hp,
           position,
-          view);        
+          view);
 
       enemies.Add(newEnemy);
 
@@ -227,6 +230,9 @@ public class BattleSystem : MonoBehaviour
     bool playerWon = winner == "Player";
     Debug.Log($"=== Battle End — {winner} wins! ===");
     player.RefillHp();
+
+    if (playerWon && PlayerData.Instance != null)
+      PlayerData.Instance.AddGold(goldRewardOnWin);
 
     OnBattleEnded?.Invoke(playerWon);
   }
