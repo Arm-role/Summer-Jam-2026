@@ -5,7 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/Scenes/SampleScene.unity
-    guid: 8c9cfa26abfee488c85f1582747f6a02
+  - enabled: 1
+    path: Assets/Knot/Main menu.unity
+    guid: 52fdd616da4bac3498246aaa6ffa87a6
+  - enabled: 1
+    path: Assets/Knot/Level 2.unity
+    guid: ba8f43697fbeb4c43992c5f4ea8aaaa8
   m_configObjects: {}
