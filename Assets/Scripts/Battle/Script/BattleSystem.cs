@@ -147,11 +147,25 @@ public class BattleSystem : MonoBehaviour
     GameStateManager.OnStateChanged -= OnStateChanged;
   }
 
-  private void OnStateChanged(GameState prev, GameState next)
+    private void OnStateChanged(GameState prev, GameState next)
   {
-    if (next == GameState.Battle) StartTurn();
-    if (prev == GameState.Battle && next != GameState.Battle) EndTurn();
+    if (next == GameState.Battle)
+    {
+      player?.PlayIdle();
+      StartTurn();
+    }
+
+    if (next == GameState.Travel)
+    {
+      player?.PlayRun();
+    }
+
+    if (prev == GameState.Battle && next != GameState.Battle)
+    {
+      EndTurn();
+    }
   }
+
 
   private void Update()
   {
@@ -284,6 +298,8 @@ public class BattleSystem : MonoBehaviour
 
     if (defender == null) return;
     if (attacker.IsDead || defender.IsDead) return;
+
+    attacker.PlayAttack();
 
     switch (log.type)
     {
@@ -458,6 +474,8 @@ public class BattleSystem : MonoBehaviour
       );
     }
   }
+
+
 
   private void RefreshTotalEnemyHP()
   {

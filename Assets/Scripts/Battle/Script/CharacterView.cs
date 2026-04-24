@@ -2,37 +2,44 @@ using UnityEngine;
 
 public class CharacterView : MonoBehaviour
 {
-  //[SerializeField] private Animator animator;
+  [SerializeField] private Animator animator;
   [SerializeField] private SpriteRenderer spriteRenderer;
 
-  // Animator parameter names — ตั้งให้ตรงกับ Animator Controller
-  private static readonly int HitTrigger = Animator.StringToHash("Hit");
-  private static readonly int DieTrigger = Animator.StringToHash("Die");
   private static readonly int IdleTrigger = Animator.StringToHash("Idle");
+  private static readonly int HitTrigger = Animator.StringToHash("Hit");
+  private static readonly int AttackTrigger = Animator.StringToHash("Attack");
+  private static readonly int RunTrigger = Animator.StringToHash("Run");
+  private static readonly int DieTrigger = Animator.StringToHash("Die");
 
   public Vector3 WorldPosition => transform.position;
 
   public void PlayIdle()
   {
-    Debug.Log("Idle");
-    //animator?.SetTrigger(IdleTrigger);
+    animator?.SetTrigger(IdleTrigger);
+  }
+
+  public void PlayAttack()
+  {
+    animator?.SetTrigger(AttackTrigger);
+  }
+
+  public void PlayRun()
+  {
+    animator?.SetTrigger(RunTrigger);
   }
 
   public void PlayHit()
   {
-    Debug.Log("Hit");
-    //animator?.SetTrigger(HitTrigger);
+    animator?.SetTrigger(HitTrigger);
   }
 
   public void PlayDie()
   {
-    Debug.Log("Die");
-    //animator?.SetTrigger(DieTrigger);
+    animator?.SetTrigger(DieTrigger);
   }
 
-  public void DestroySelf() => Destroy(gameObject);
-
-  // flip sprite เมื่อ enemy อยู่ขวา
-  public void FaceLeft() => spriteRenderer.flipX = false;
-  public void FaceRight() => spriteRenderer.flipX = true;
+  public void DestroySelf()
+  {
+    Destroy(gameObject);
+  }
 }

@@ -36,6 +36,21 @@ public class CombatUnit
     view = characterView;
   }
 
+  public void PlayAttack()
+  {
+    view?.PlayAttack();
+  }
+
+  public void PlayIdle()
+  {
+    view?.PlayIdle();
+  }
+
+  public void PlayRun()
+  {
+    view?.PlayRun();
+  }
+
   public void TakeDamage(int amount)
   {
     if (IsDead) return;
@@ -44,7 +59,6 @@ public class CombatUnit
     OnHpChanged?.Invoke(currentHp, maxHp);
     if (IsDead)
     {
-      view?.PlayDie();
       view?.DestroySelf();
       OnDied?.Invoke(this);
     }

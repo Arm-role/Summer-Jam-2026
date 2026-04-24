@@ -45,7 +45,6 @@ public class BattleSceneSpawner : MonoBehaviour
         playerSpawnPoint.position,
         Quaternion.identity);
 
-    spawnedPlayer.FaceRight();
     spawnedPlayer.PlayIdle();
 
     battleSystem.BindPlayerView(spawnedPlayer);
@@ -84,7 +83,6 @@ public class BattleSceneSpawner : MonoBehaviour
         spawnPoint.position,
         Quaternion.identity);
 
-      view.FaceLeft();
       view.PlayIdle();
 
       spawnedEnemies.Add(view);
