@@ -1,4 +1,5 @@
 ﻿using System;
+using TMPro;
 using UnityEngine;
 /// <summary>
 /// เก็บข้อมูล runtime ของ Player
@@ -14,8 +15,12 @@ public class PlayerData : MonoBehaviour
   [Header("Starting Values")]
   [SerializeField] private int startingGold = 50;
 
-  [Header("Starting Values")]
-  [SerializeField] private int energyDrink;
+  [Header("UI")]
+  [SerializeField] private TMP_Text energyCount;
+
+
+  private int energyDrink;
+  public bool HasEnergyDrink => energyDrink > 0;
 
   private int currentGold;
   public int Gold => currentGold;
@@ -35,6 +40,7 @@ public class PlayerData : MonoBehaviour
   public void ResetData()
   {
     currentGold = startingGold;
+    energyCount.text = energyDrink.ToString();
     OnGoldChanged?.Invoke(currentGold);
   }
 
@@ -59,5 +65,11 @@ public class PlayerData : MonoBehaviour
   public void TryBuyEnergyDrink()
   {
     energyDrink++;
+    energyCount.text = energyDrink.ToString();
+  }
+  public void ConsumeEnergyDrink()
+  {
+    energyDrink--;
+    energyCount.text = energyDrink.ToString();
   }
 }

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GunShop
   m_EditorClassIdentifier: 
   itemTetrisSO: {fileID: 11400000, guid: c151ff25c6fde66448d67f4f1f27facd, type: 2}
-  displayName: Gun
+  displayName: Gun1
   description: 'Damage 10
 
     Cooldown 1.5'

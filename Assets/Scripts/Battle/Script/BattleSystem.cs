@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class BattleSystem : MonoBehaviour
 {
@@ -14,9 +15,7 @@ public class BattleSystem : MonoBehaviour
 
   [Header("Battle Setup")]
   [SerializeField] private int playerMaxHp = 100;
-
-  [Header("Economy")]
-  [SerializeField] private int goldRewardOnWin = 20;
+  [SerializeField] private Button bootButton;
 
   [Header("Floating Text")]
   [SerializeField] private FloatingTextConfig floatingTextConfig;
@@ -25,6 +24,8 @@ public class BattleSystem : MonoBehaviour
 
   // เพิ่ม field
   private CharacterView playerView;
+
+  private int goldRewardOnWin = 20;
 
   // units
   private CombatUnit player;
@@ -54,6 +55,8 @@ public class BattleSystem : MonoBehaviour
     inventoryTetris.OnObjectPlaced += OnItemPlaced;
     inventoryTetris.OnObjectRemoved += OnItemRemoved;
 
+    bootButton.onClick.AddListener(BootEnergyDrink);
+
     GameStateManager.OnStateChanged += OnStateChanged;
   }
 
@@ -73,10 +76,12 @@ public class BattleSystem : MonoBehaviour
     player.OnDied += _ => EndBattle("Enemy");
   }
 
-  public void InitializedEnemy(List<EnemyUnitSO> enemys, List<CharacterView> views)
+  public void InitializedEnemy(List<EnemyUnitSO> enemys, List<CharacterView> views, int goldRewardOnWin)
   {
     enemies.Clear();
     enemyRunners.Clear();
+
+    this.goldRewardOnWin = goldRewardOnWin;
 
     for (int i = 0; i < enemys.Count; i++)
     {
@@ -133,16 +138,6 @@ public class BattleSystem : MonoBehaviour
 
   private void Update()
   {
-    if (Keyboard.current.tKey.wasPressedThisFrame)
-    {
-      modifierSystem.ApplyModifier(
-        CooldownModifierType.SpeedUp,
-        0.5f,
-        5f);
-
-      Debug.Log("Speed Buff Applied");
-      modifierSystem.DebugPrintModifiers();
-    }
 
     if (Keyboard.current.yKey.wasPressedThisFrame)
     {
@@ -167,6 +162,17 @@ public class BattleSystem : MonoBehaviour
     foreach (var r in playerRunners.Values) r.Tick(dt);
     foreach (var runners in enemyRunners.Values)
       foreach (var r in runners) r.Tick(dt);
+  }
+
+  private void BootEnergyDrink()
+  {
+    if(!PlayerData.Instance.HasEnergyDrink) return;
+
+    PlayerData.Instance.ConsumeEnergyDrink();
+    modifierSystem.ApplyModifier(
+      CooldownModifierType.SpeedUp,
+      0.5f,
+      5f);
   }
 
   private void OnItemPlaced(object sender, PlacedObject placedObject)

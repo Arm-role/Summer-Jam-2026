@@ -1,26 +1,43 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameLoopController : MonoBehaviour
 {
   public event System.Action<string> OnPrepareEventChanged;
 
+  [Header("Progression")]
+  [SerializeField] private GameProgressionSO progression;
+
+  [Header("Event Handlers")]
+  [SerializeField] private MockEnemyEvent enemyEvent;
+  [SerializeField] private MockShopEvent shopEvent;
+
+  [Header("Debug")]
+  [SerializeField] private GameState initialGameState = GameState.Prepare;
+
   [Header("CutScene")]
   [SerializeField] private float cutSceneDuration = 3f;
 
-  [Header("Events — ลาก MockEvent หรือ RealEvent ใส่นี้")]
-  [SerializeField] private List<MonoBehaviour> prepareEvents;
+  // progression state
+  private int stageIndex;
+  private int eventIndex;
+
   private IPrepareEvent currentEvent;
   private bool playerWon;
 
+  // read-only สำหรับ UI
+  public StageData CurrentStage => progression.stages[stageIndex];
+  public StageEvent CurrentStageEvent => CurrentStage.events[eventIndex];
+  public int StageIndex => stageIndex;
+  public int EventIndex => eventIndex;
+
   // ─────────────────────────────────────────
+
   private void Start()
   {
     GameStateManager.OnStateChanged += OnStateChanged;
     BattleSystem.OnBattleEnded += OnBattleEnded;
-
-    EnterPrepare();
+    EnterInitialState();
   }
 
   private void OnDestroy()
@@ -29,44 +46,81 @@ public class GameLoopController : MonoBehaviour
     BattleSystem.OnBattleEnded -= OnBattleEnded;
   }
 
-  // ─────────────────────────────────────────
   private void OnStateChanged(GameState prev, GameState next)
   {
-    Debug.Log(prev.ToString() + " " + next.ToString());
+    Debug.Log($"[State] {prev} → {next}");
   }
 
   // ─────────────────────────────────────────
-  // Prepare
+  // Initial
   // ─────────────────────────────────────────
+
+  private void EnterInitialState()
+  {
+    switch (initialGameState)
+    {
+      case GameState.Battle:
+        GameStateManager.GoTo(GameState.Battle);
+        break;
+      case GameState.GameOver:
+        GameStateManager.GoTo(GameState.GameOver);
+        break;
+      default:
+        EnterPrepare();
+        break;
+    }
+  }
+
+  // ─────────────────────────────────────────
+  // Prepare — อ่านจาก GameProgressionSO
+  // ─────────────────────────────────────────
+
   private void EnterPrepare()
   {
+    // ชนะทั้งเกมแล้ว
+    if (stageIndex >= progression.stages.Count)
+    {
+      Debug.Log("=== Game Clear! ===");
+      GameStateManager.GoTo(GameState.GameOver);
+      return;
+    }
+
     currentEvent = PickNextEvent();
     currentEvent?.OnEventBegin();
+
     GameStateManager.GoTo(GameState.Prepare);
     OnPrepareEventChanged?.Invoke(currentEvent?.EventLabel);
   }
 
   private IPrepareEvent PickNextEvent()
   {
-    if (prepareEvents == null || prepareEvents.Count == 0) return null;
-    int index = _eventIndex % prepareEvents.Count;
-    _eventIndex++;
-    return prepareEvents[index] as IPrepareEvent;
+    var stageEvent = CurrentStageEvent;
+
+    switch (stageEvent.type)
+    {
+      case StageEventType.Battle:
+        enemyEvent.SetLevelData(stageEvent.enemyLevel);
+        return enemyEvent;
+
+      case StageEventType.Shop:
+        return shopEvent;
+
+      default:
+        return null;
+    }
   }
-  private int _eventIndex = 0;
 
   // ─────────────────────────────────────────
   // Battle
   // ─────────────────────────────────────────
 
-  // เรียกจาก UI Button "Start Battle"
   public void RequestStartBattle()
   {
     if (GameStateManager.Current != GameState.Prepare) return;
+    if (CurrentStageEvent.type != StageEventType.Battle) return;
     GameStateManager.GoTo(GameState.Battle);
   }
 
-  // BattleSystem ยิง static event นี้เมื่อ HP ฝั่งใดฝั่งหนึ่งหมด
   private void OnBattleEnded(bool didPlayerWin)
   {
     playerWon = didPlayerWin;
@@ -78,26 +132,38 @@ public class GameLoopController : MonoBehaviour
       return;
     }
 
-    GameStateManager.GoTo(GameState.Travel);
-    StartCoroutine(CutSceneRoutine());
+    StartCoroutine(AdvanceRoutine());
   }
+
+  // ─────────────────────────────────────────
+  // Shop
+  // ─────────────────────────────────────────
 
   public void RequestEndShop()
   {
-    if (GameStateManager.Current != GameState.Prepare)
-      return;
-
-    GameStateManager.GoTo(GameState.Travel);
-    StartCoroutine(CutSceneRoutine());
+    if (GameStateManager.Current != GameState.Prepare) return;
+    StartCoroutine(AdvanceRoutine());
   }
 
-  private IEnumerator CutSceneRoutine()
+  // ─────────────────────────────────────────
+  // Advance — เลื่อน event / stage
+  // ─────────────────────────────────────────
+
+  private IEnumerator AdvanceRoutine()
   {
+    GameStateManager.GoTo(GameState.Travel);
     yield return new WaitForSeconds(cutSceneDuration);
-    EnterPrepare();   // วน loop
+
+    eventIndex++;
+
+    if (eventIndex >= CurrentStage.events.Count)
+    {
+      eventIndex = 0;
+      stageIndex++;
+    }
+
+    EnterPrepare();
   }
-
-
 
   // ─────────────────────────────────────────
   // UI Buttons
@@ -105,6 +171,8 @@ public class GameLoopController : MonoBehaviour
 
   public void RequestRestart()
   {
+    stageIndex = 0;
+    eventIndex = 0;
     PlayerData.Instance?.ResetData();
     EnterPrepare();
   }

@@ -16,7 +16,8 @@ public class ShopUI : MonoBehaviour
   [SerializeField] private ShopSystem shopSystem;
 
   [Header("UI")]
-  [SerializeField] private TMP_Text goldText;
+  [SerializeField] private TMP_Text goldTextBattle;
+  [SerializeField] private TMP_Text goldTextShop;
 
   // ── Unity ─────────────────────────────────────────────────────────────────
 
@@ -58,8 +59,8 @@ public class ShopUI : MonoBehaviour
 
   private void RefreshGold(int gold)
   {
-    Debug.Log($"[ShopUI] RefreshGold: {gold}G");
-    if (goldText != null) goldText.text = $"{gold}";
+    if (goldTextBattle != null) goldTextBattle.text = $"{gold}";
+    if (goldTextShop != null) goldTextShop.text = $"{gold}";
   }
 
   private void ShowError(string msg)
