@@ -15,26 +15,31 @@ public class CharacterView : MonoBehaviour
 
   public void PlayIdle()
   {
+    if (animator == null) return;
     animator?.SetTrigger(IdleTrigger);
   }
 
   public void PlayAttack()
   {
+    if (animator == null) return;
     animator?.SetTrigger(AttackTrigger);
   }
 
   public void PlayRun()
   {
+    if (animator == null) return;
     animator?.SetTrigger(RunTrigger);
   }
 
   public void PlayHit()
   {
+    if (animator == null) return;
     animator?.SetTrigger(HitTrigger);
   }
 
   public void PlayDie()
   {
+    if (animator == null) return;
     animator?.SetTrigger(DieTrigger);
   }
 
