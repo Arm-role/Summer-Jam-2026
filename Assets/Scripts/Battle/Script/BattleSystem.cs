@@ -16,6 +16,7 @@ public class BattleSystem : MonoBehaviour
   [Header("Battle Setup")]
   [SerializeField] private int playerMaxHp = 100;
   [SerializeField] private Button bootButton;
+  [SerializeField] private HPBar hpBar;
 
   [Header("Floating Text")]
   [SerializeField] private FloatingTextConfig floatingTextConfig;
@@ -72,7 +73,11 @@ public class BattleSystem : MonoBehaviour
   private void CreatePlayerUnit()
   {
     player = new CombatUnit("Player", playerMaxHp);
-    player.OnHpChanged += (cur, max) => Debug.Log($"[Player HP] {cur}/{max}");
+    player.OnHpChanged += (cur, max) =>
+    {
+      Debug.Log($"[Player HP] {cur}/{max}");
+      hpBar.UpdatePlayerHP(cur, max);
+    };
     player.OnDied += _ => EndBattle("Enemy");
   }
 
@@ -101,7 +106,11 @@ public class BattleSystem : MonoBehaviour
       enemies.Add(newEnemy);
 
       newEnemy.OnHpChanged += (cur, max) =>
-          Debug.Log($"[{newEnemy.unitName} HP] {cur}/{max}");
+      {
+        Debug.Log($"[{newEnemy.unitName} HP] {cur}/{max}");
+
+        RefreshTotalEnemyHP();
+      };
 
       newEnemy.OnDied += _ =>
       {
@@ -109,6 +118,14 @@ public class BattleSystem : MonoBehaviour
         RefreshEnemyFormation();
         if (enemies.Count == 0) EndBattle("Player");
       };
+
+
+      hpBar.SetupHP(
+        player.currentHp,
+        player.maxHp,
+        GetTotalEnemyHP(),
+        GetTotalEnemyMaxHP()
+      );
 
       foreach (var actionSO in enemyUnitSO.actions)
       {
@@ -166,7 +183,7 @@ public class BattleSystem : MonoBehaviour
 
   private void BootEnergyDrink()
   {
-    if(!PlayerData.Instance.HasEnergyDrink) return;
+    if (!PlayerData.Instance.HasEnergyDrink) return;
 
     PlayerData.Instance.ConsumeEnergyDrink();
     modifierSystem.ApplyModifier(
@@ -442,6 +459,20 @@ public class BattleSystem : MonoBehaviour
     }
   }
 
+  private void RefreshTotalEnemyHP()
+  {
+    int totalCurrent = 0;
+    int totalMax = 0;
+
+    foreach (var enemy in enemies)
+    {
+      totalCurrent += enemy.currentHp;
+      totalMax += enemy.maxHp;
+    }
+
+    hpBar.UpdateEnemyHP(totalCurrent, totalMax);
+  }
+
   private bool IsPlayerItem(string itemName)
   {
     foreach (var so in battleDataSOs)
@@ -449,6 +480,24 @@ public class BattleSystem : MonoBehaviour
     return false;
   }
 
+  private int GetTotalEnemyHP()
+  {
+    int total = 0;
+
+    foreach (var enemy in enemies)
+      total += enemy.currentHp;
+
+    return total;
+  }
+  private int GetTotalEnemyMaxHP()
+  {
+    int total = 0;
+
+    foreach (var enemy in enemies)
+      total += enemy.maxHp;
+
+    return total;
+  }
   private ItemBattleDataSO FindBattleData(string itemName)
   {
     foreach (var so in battleDataSOs)
