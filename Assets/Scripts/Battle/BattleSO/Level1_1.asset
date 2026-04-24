@@ -9,14 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e746848a65b50044a6e16adbce7da69, type: 3}
-  m_Name: Gun1
+  m_Script: {fileID: 11500000, guid: 36aeece36c601c4479d0104125987986, type: 3}
+  m_Name: Level1_1
   m_EditorClassIdentifier: 
-  itemName: Gun1
-  targetType: 4
-  actionType: 0
-  value: 10
-  cooldown: 1.2
-  statusEffectType: 0
-  duration: 0
-  effectStrength: 0
+  enemies:
+  - {fileID: 11400000, guid: 483fa5cf64648524688cc3e7c7a3b22b, type: 2}
+  goldReward: 30

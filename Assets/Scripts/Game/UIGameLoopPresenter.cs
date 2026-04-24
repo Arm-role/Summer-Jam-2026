@@ -6,6 +6,8 @@ public class UIGameLoopPresenter : MonoBehaviour
   [SerializeField] private GameLoopController gameLoopController;
   [SerializeField] Button startBattleButton;
   [SerializeField] Button endShopButton;
+  [SerializeField] GameObject[] battleObjects;
+  [SerializeField] GameObject[] shopObjects;
 
   private void Start()
   {
@@ -18,6 +20,12 @@ public class UIGameLoopPresenter : MonoBehaviour
   {
     startBattleButton.gameObject.SetActive(label == "Enemy");
     endShopButton.gameObject.SetActive(label == "Shop");
+
+    foreach (var obj in battleObjects)
+      obj.gameObject.SetActive(label == "Enemy");
+
+    foreach (var obj in shopObjects)
+       obj.gameObject.SetActive(label == "Shop");
   }
 
   public void OnStartBattlePressed()
@@ -28,6 +36,9 @@ public class UIGameLoopPresenter : MonoBehaviour
   public void OnEndShopPressed()
   {
     gameLoopController.RequestEndShop();
+
+    foreach (var obj in shopObjects)
+      obj.gameObject.SetActive(false);
   }
 
   public void OnRestartPressed()

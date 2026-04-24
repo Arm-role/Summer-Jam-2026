@@ -1,21 +1,26 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MockEnemyEvent : MonoBehaviour, IPrepareEvent
 {
-  [SerializeField] BattleSceneSpawner battleSceneSpawner;
-  [SerializeField] private List<EnemyUnitSO> enemyUnitSOs;
+  [SerializeField] private BattleSceneSpawner battleSceneSpawner;
 
   public string EventLabel => "Enemy";
+  private EnemyLevelSO levelData;
+
+  public void SetLevelData(EnemyLevelSO data) => levelData = data;
 
   public void OnEventBegin()
   {
-    battleSceneSpawner.SpawnBattle(enemyUnitSOs);
+    if (levelData == null)
+    {
+      Debug.LogWarning("[MockEnemyEvent] Missing LevelData");
+      return;
+    }
+    battleSceneSpawner.SpawnBattle(levelData.enemies, levelData.goldReward);
   }
 
   public void OnBattleEnd(bool playerWon)
   {
-    Debug.Log($"[MockEnemyEvent] battle ended — playerWon: {playerWon}");
+    Debug.Log($"[MockEnemyEvent] playerWon: {playerWon}");
   }
 }

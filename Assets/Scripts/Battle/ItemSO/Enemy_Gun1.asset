@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Enemy_Gun1
   m_EditorClassIdentifier: 
   itemName: Enemy_Gun1
-  targetType: 5
+  targetType: 4
   actionType: 0
   value: 10
   cooldown: 1.2

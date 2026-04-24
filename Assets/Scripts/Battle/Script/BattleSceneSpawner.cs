@@ -19,11 +19,11 @@ public class BattleSceneSpawner : MonoBehaviour
   // ─────────────────────────────────────────
   // เรียกจาก GameLoopController ตอน IPrepareEvent.OnEventBegin()
   // ─────────────────────────────────────────
-  public void SpawnBattle(List<EnemyUnitSO> enemySOs)
+  public void SpawnBattle(List<EnemyUnitSO> enemySOs, int goldReward)
   {
     ClearAll();
     SpawnPlayer();
-    SpawnEnemies(enemySOs);
+    SpawnEnemies(enemySOs, goldReward);
   }
 
   public void ClearAll()
@@ -51,7 +51,7 @@ public class BattleSceneSpawner : MonoBehaviour
     battleSystem.BindPlayerView(spawnedPlayer);
   }
 
-  private void SpawnEnemies(List<EnemyUnitSO> enemySOs)
+  private void SpawnEnemies(List<EnemyUnitSO> enemySOs, int goldReward)
   {
     var viewList = new List<CharacterView>();
 
@@ -93,6 +93,7 @@ public class BattleSceneSpawner : MonoBehaviour
 
     battleSystem.InitializedEnemy(
       enemySOs,
-      viewList);
+      viewList,
+      goldReward);
   }
 }
