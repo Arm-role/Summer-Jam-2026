@@ -9,6 +9,6 @@ EditorBuildSettings:
     path: Assets/Knot/Main menu.unity
     guid: 52fdd616da4bac3498246aaa6ffa87a6
   - enabled: 1
-    path: Assets/Knot/Level 2.unity
-    guid: ba8f43697fbeb4c43992c5f4ea8aaaa8
+    path: Assets/Scenes/GamePlay.unity
+    guid: 61e7b4720d95de94c9e1ff71ccce6496
   m_configObjects: {}
