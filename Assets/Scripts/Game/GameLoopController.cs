@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 public class GameLoopController : MonoBehaviour
@@ -16,6 +17,7 @@ public class GameLoopController : MonoBehaviour
   [SerializeField] private GameState initialGameState = GameState.Prepare;
 
   [Header("CutScene")]
+  [SerializeField] private PanelSlider parnalSlider;
   [SerializeField] private float cutSceneDuration = 3f;
 
   // progression state
@@ -37,8 +39,11 @@ public class GameLoopController : MonoBehaviour
   {
     GameStateManager.OnStateChanged += OnStateChanged;
     BattleSystem.OnBattleEnded += OnBattleEnded;
+    parnalSlider.OnPageChanged += NextWave;
+
     EnterInitialState();
   }
+
 
   private void OnDestroy()
   {
@@ -152,10 +157,22 @@ public class GameLoopController : MonoBehaviour
   private IEnumerator AdvanceRoutine()
   {
     GameStateManager.GoTo(GameState.Travel);
-    yield return new WaitForSeconds(cutSceneDuration);
-
     eventIndex++;
 
+    var timer = cutSceneDuration;
+
+    if (eventIndex >= CurrentStage.events.Count)
+    {
+      parnalSlider.Next();
+    }
+    else
+    {
+      yield return new WaitForSeconds(timer);
+      NextWave(0);
+    }
+  }
+  private void NextWave(int _)
+  {
     if (eventIndex >= CurrentStage.events.Count)
     {
       eventIndex = 0;
