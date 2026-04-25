@@ -1,46 +1,32 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CharacterView : MonoBehaviour
 {
   [SerializeField] private Animator animator;
   [SerializeField] private SpriteRenderer spriteRenderer;
 
-  private static readonly int IdleTrigger = Animator.StringToHash("Idle");
-  private static readonly int HitTrigger = Animator.StringToHash("Hit");
   private static readonly int AttackTrigger = Animator.StringToHash("Attack");
-  private static readonly int RunTrigger = Animator.StringToHash("Run");
-  private static readonly int DieTrigger = Animator.StringToHash("Die");
+  private static readonly int IsMove = Animator.StringToHash("IsMove");
+  private static readonly int HitTrigger = Animator.StringToHash("Hit");  
 
   public Vector3 WorldPosition => transform.position;
 
-  public void PlayIdle()
-  {
-    if (animator == null) return;
-    animator?.SetTrigger(IdleTrigger);
-  }
-
   public void PlayAttack()
   {
-    if (animator == null) return;
+    Debug.Log("Attack1");
     animator?.SetTrigger(AttackTrigger);
   }
 
-  public void PlayRun()
+  /// <param name="isMoving">true = วิ่ง, false = หยุด</param>
+  public void PlayRun(bool isMoving)
   {
-    if (animator == null) return;
-    animator?.SetTrigger(RunTrigger);
+
+    animator?.SetBool(IsMove, isMoving);
   }
 
   public void PlayHit()
   {
-    if (animator == null) return;
     animator?.SetTrigger(HitTrigger);
-  }
-
-  public void PlayDie()
-  {
-    if (animator == null) return;
-    animator?.SetTrigger(DieTrigger);
   }
 
   public void DestroySelf()

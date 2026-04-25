@@ -17,6 +17,7 @@ public class BattleSystem : MonoBehaviour
   [SerializeField] private int playerMaxHp = 100;
   [SerializeField] private Button bootButton;
   [SerializeField] private HPBar hpBar;
+  [SerializeField] private GameLoopController gameLoopController;
 
   [Header("Floating Text")]
   [SerializeField] private FloatingTextConfig floatingTextConfig;
@@ -46,8 +47,6 @@ public class BattleSystem : MonoBehaviour
 
   private void Start()
   {
-    CreatePlayerUnit();
-
     floatingTextService = new FloatingTextService(
       floatingTextConfig.Prefab,
       floatingTextConfig.Styles
@@ -66,13 +65,14 @@ public class BattleSystem : MonoBehaviour
   {
     playerView = view;
 
-    if (player == null) CreatePlayerUnit();
+    if (player == null) CreatePlayerUnit(view);
     player.BindView(view);
+    gameLoopController.SetUpPlayerView(view);
   }
 
-  private void CreatePlayerUnit()
+  private void CreatePlayerUnit(CharacterView view)
   {
-    player = new CombatUnit("Player", playerMaxHp);
+    player = new CombatUnit("Player", playerMaxHp, view: view);
     player.OnHpChanged += (cur, max) =>
     {
       Debug.Log($"[Player HP] {cur}/{max}");
@@ -147,20 +147,28 @@ public class BattleSystem : MonoBehaviour
     GameStateManager.OnStateChanged -= OnStateChanged;
   }
 
-    private void OnStateChanged(GameState prev, GameState next)
+  private void OnStateChanged(GameState prev, GameState next)
   {
     if (next == GameState.Battle)
     {
-      player?.PlayIdle();
       StartTurn();
     }
 
     if (next == GameState.Travel)
     {
-      player?.PlayRun();
+      player?.PlayRun(true);
+    }
+    else
+    {
+      player?.PlayRun(false);
     }
 
     if (prev == GameState.Battle && next != GameState.Battle)
+    {
+      EndTurn();
+    }
+
+    if (next == GameState.GameOver)
     {
       EndTurn();
     }
@@ -180,12 +188,6 @@ public class BattleSystem : MonoBehaviour
       Debug.Log("Slow Debuff Applied");
       modifierSystem.DebugPrintModifiers();
     }
-
-    if (Keyboard.current.sKey.wasPressedThisFrame)
-      StartTurn();
-
-    if (Keyboard.current.dKey.wasPressedThisFrame)
-      EndTurn();
 
     if (!inBattle) return;
 
@@ -266,10 +268,12 @@ public class BattleSystem : MonoBehaviour
 
     bool playerWon = winner == "Player";
     Debug.Log($"=== Battle End — {winner} wins! ===");
-    player.RefillHp();
 
     if (playerWon && PlayerData.Instance != null)
+    {
       PlayerData.Instance.AddGold(goldRewardOnWin);
+      player.RefillHp();
+    }
 
     OnBattleEnded?.Invoke(playerWon);
   }
@@ -300,6 +304,7 @@ public class BattleSystem : MonoBehaviour
     if (attacker.IsDead || defender.IsDead) return;
 
     attacker.PlayAttack();
+    Debug.Log("Attack2");
 
     switch (log.type)
     {
@@ -371,6 +376,7 @@ public class BattleSystem : MonoBehaviour
           : null;
     }
   }
+
   private void ApplyStatusEffect(
   BattleActionLog log,
   CombatUnit defender)

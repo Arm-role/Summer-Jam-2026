@@ -6,7 +6,8 @@ public enum GameState
   Battle,
   Travel,
   Shop,
-  GameOver
+  GameOver,
+  GameEnd
 }
 
 public static class GameStateManager

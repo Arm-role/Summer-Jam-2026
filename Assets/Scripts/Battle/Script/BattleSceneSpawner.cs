@@ -45,8 +45,6 @@ public class BattleSceneSpawner : MonoBehaviour
         playerSpawnPoint.position,
         Quaternion.identity);
 
-    spawnedPlayer.PlayIdle();
-
     battleSystem.BindPlayerView(spawnedPlayer);
   }
 
@@ -82,8 +80,6 @@ public class BattleSceneSpawner : MonoBehaviour
         so.prefab,
         spawnPoint.position,
         Quaternion.identity);
-
-      view.PlayIdle();
 
       spawnedEnemies.Add(view);
       viewList.Add(view);

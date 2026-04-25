@@ -27,7 +27,11 @@ public class ShopItemCardUI2 : MonoBehaviour
 
   // ── Internal ──────────────────────────────────────────────────────────────
 
-  private void OnBuyClicked() => PlayerData.Instance?.TryBuyEnergyDrink();
+  private void OnBuyClicked()
+  {
+    if (PlayerData.Instance.TrySpend(30))
+      PlayerData.Instance?.TryBuyEnergyDrink();
+  }
 
   private void RefreshAffordability()
   {

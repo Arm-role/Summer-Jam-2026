@@ -4,7 +4,8 @@
     "references": [
         "Unity.InputSystem",
         "Unity.TextMeshPro",
-        "Tweens"
+        "Tweens",
+        "Knot"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

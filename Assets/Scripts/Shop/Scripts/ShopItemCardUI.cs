@@ -22,7 +22,7 @@ public class ShopItemCardUI : MonoBehaviour
   public void Start()
   {
     if (sizeText != null) sizeText.text = shopItem.SizeLabel;
-    if (priceText != null) priceText.text = $"{shopItem.price}G";
+    if (priceText != null) priceText.text = $"{shopItem.price}";
 
     buyButton?.onClick.RemoveAllListeners();
     buyButton?.onClick.AddListener(OnBuyClicked);

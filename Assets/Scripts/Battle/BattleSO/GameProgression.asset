@@ -20,6 +20,10 @@ MonoBehaviour:
     - type: 1
       enemyLevel: {fileID: 0}
     - type: 0
+      enemyLevel: {fileID: 11400000, guid: 6da5a0e0bab10fc48a285bb27a1e56d5, type: 2}
+    - type: 1
+      enemyLevel: {fileID: 0}
+    - type: 0
       enemyLevel: {fileID: 11400000, guid: 5ef78dfc672972646b2eb9d178511272, type: 2}
     - type: 1
       enemyLevel: {fileID: 0}
@@ -28,7 +32,13 @@ MonoBehaviour:
   - stageName: Road
     events:
     - type: 0
+      enemyLevel: {fileID: 11400000, guid: 660e69df997e0b64ab71064d34a3b527, type: 2}
+    - type: 1
+      enemyLevel: {fileID: 0}
+    - type: 0
       enemyLevel: {fileID: 11400000, guid: 2a27134098bac2b498258312c38dfcdb, type: 2}
+    - type: 1
+      enemyLevel: {fileID: 0}
     - type: 0
       enemyLevel: {fileID: 11400000, guid: e540f461a7affa84e800764927e669c9, type: 2}
     - type: 1

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using UnityEngine;
 
 public enum EnemyPosition { Front, Back }
@@ -11,9 +11,7 @@ public class CombatUnit
   public bool IsDead => currentHp <= 0;
   public EnemyPosition Position { get; private set; }
 
-  public Vector3 WorldPosition => view != null
-      ? view.WorldPosition
-      : Vector3.zero;
+  public Vector3 WorldPosition => view != null ? view.WorldPosition : Vector3.zero;
 
   public event Action<int, int> OnHpChanged;
   public event Action<CombatUnit> OnDied;
@@ -31,25 +29,12 @@ public class CombatUnit
     this.view = view;
   }
 
-  public void BindView(CharacterView characterView)
-  {
-    view = characterView;
-  }
+  public void BindView(CharacterView characterView) => view = characterView;
 
-  public void PlayAttack()
-  {
-    view?.PlayAttack();
-  }
+  public void PlayAttack() => view?.PlayAttack();
 
-  public void PlayIdle()
-  {
-    view?.PlayIdle();
-  }
-
-  public void PlayRun()
-  {
-    view?.PlayRun();
-  }
+  /// <param name="isMoving">true = วิ่ง, false = หยุด</param>
+  public void PlayRun(bool isMoving) => view?.PlayRun(isMoving);
 
   public void TakeDamage(int amount)
   {

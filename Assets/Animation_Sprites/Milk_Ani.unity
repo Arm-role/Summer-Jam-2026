@@ -259,19 +259,19 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
---- !u!1 &378479696 stripped
+--- !u!1 &401281684 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1424080175567832417, guid: 50ef8b38d38d38342b3f64cbfad1b783, type: 3}
-  m_PrefabInstance: {fileID: 2071588815}
+  m_PrefabInstance: {fileID: 2033402482}
   m_PrefabAsset: {fileID: 0}
---- !u!95 &378479697
+--- !u!95 &401281685
 Animator:
   serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 378479696}
+  m_GameObject: {fileID: 401281684}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 088c4e55505f18c4c9dafe437926d1e4, type: 2}
@@ -296,10 +296,6 @@ PrefabInstance:
     - target: {fileID: 2749941228717044314, guid: 13cfc1d8f5899474185dbfad918625b6, type: 3}
       propertyPath: m_Name
       value: Manita_100
-      objectReference: {fileID: 0}
-    - target: {fileID: 2749941228717044314, guid: 13cfc1d8f5899474185dbfad918625b6, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3954680742057486905, guid: 13cfc1d8f5899474185dbfad918625b6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -407,7 +403,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!1001 &2071588815
+--- !u!1001 &2033402482
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -465,7 +461,7 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1424080175567832417, guid: 50ef8b38d38d38342b3f64cbfad1b783, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 378479697}
+      addedObject: {fileID: 401281685}
   m_SourcePrefab: {fileID: 100100000, guid: 50ef8b38d38d38342b3f64cbfad1b783, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
@@ -473,4 +469,4 @@ SceneRoots:
   m_Roots:
   - {fileID: 263486922}
   - {fileID: 1772260085}
-  - {fileID: 2071588815}
+  - {fileID: 2033402482}
