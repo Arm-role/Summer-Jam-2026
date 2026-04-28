@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using CodeMonkey.Utils;
+using TMPro;
 using UnityEngine;
 /// <summary>
 /// UI หลักของ Shop Panel
@@ -66,5 +67,6 @@ public class ShopUI : MonoBehaviour
   private void ShowError(string msg)
   {
     TooltipCanvas.ShowTooltip_Static(msg);
+    FunctionTimer.Create(() => { TooltipCanvas.HideTooltip_Static(); }, 2f, "HideTooltip", true, true);
   }
 }

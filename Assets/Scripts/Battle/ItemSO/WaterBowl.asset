@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: WaterBowl
   m_EditorClassIdentifier: 
   itemName: WaterBowl
-  targetType: 2
+  targetType: 3
   actionType: 0
   value: 10
   cooldown: 1.5

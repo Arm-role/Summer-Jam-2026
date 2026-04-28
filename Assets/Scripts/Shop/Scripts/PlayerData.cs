@@ -1,29 +1,22 @@
 ﻿using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-/// <summary>
-/// เก็บข้อมูล runtime ของ Player
-/// Singleton + DontDestroyOnLoad → คงอยู่ข้าม scene
-/// เรียก ResetData() ตอน restart
-/// </summary>
+
 public class PlayerData : MonoBehaviour
 {
   public static PlayerData Instance { get; private set; }
 
   public event Action<int> OnGoldChanged;
+  public event Action<ItemBattleDataSO, int> OnConsumableChanged;
 
   [Header("Starting Values")]
   [SerializeField] private int startingGold = 50;
 
-  [Header("UI")]
-  [SerializeField] private TMP_Text energyCount;
-
-
-  private int energyDrink;
-  public bool HasEnergyDrink => energyDrink > 0;
-
   private int currentGold;
   public int Gold => currentGold;
+
+  private readonly Dictionary<ItemBattleDataSO, int> consumableStacks = new();
 
   private void Awake()
   {
@@ -31,18 +24,16 @@ public class PlayerData : MonoBehaviour
     Instance = this;
   }
 
-  private void Start()
-  {
-    ResetData();
-  }
+  private void Start() => ResetData();
 
   public void ResetData()
   {
     currentGold = startingGold;
-    energyCount.text = energyDrink.ToString();
+    consumableStacks.Clear();
     OnGoldChanged?.Invoke(currentGold);
   }
 
+  // ── Gold ──────────────────────────────────────────────────────────────
   public bool CanAfford(int amount) => currentGold >= amount;
 
   public bool TrySpend(int amount)
@@ -58,17 +49,29 @@ public class PlayerData : MonoBehaviour
     if (amount <= 0) return;
     currentGold += amount;
     OnGoldChanged?.Invoke(currentGold);
-    Debug.Log($"[PlayerData] +{amount}G | รวม {currentGold}G");
   }
 
-  public void TryBuyEnergyDrink()
+  // ── Consumable ────────────────────────────────────────────────────────
+  public void AddConsumable(ItemBattleDataSO item)
   {
-    energyDrink++;
-    energyCount.text = energyDrink.ToString();
+    if (!consumableStacks.ContainsKey(item))
+      consumableStacks[item] = 0;
+
+    consumableStacks[item]++;
+    OnConsumableChanged?.Invoke(item, consumableStacks[item]);
   }
-  public void ConsumeEnergyDrink()
+
+  public bool HasConsumable(ItemBattleDataSO item)
+      => consumableStacks.TryGetValue(item, out var count) && count > 0;
+
+  public bool TryConsumeItem(ItemBattleDataSO item)
   {
-    energyDrink--;
-    energyCount.text = energyDrink.ToString();
+    if (!HasConsumable(item)) return false;
+    consumableStacks[item]--;
+    OnConsumableChanged?.Invoke(item, consumableStacks[item]);
+    return true;
   }
+
+  public int GetConsumableCount(ItemBattleDataSO item)
+      => consumableStacks.TryGetValue(item, out var count) ? count : 0;
 }

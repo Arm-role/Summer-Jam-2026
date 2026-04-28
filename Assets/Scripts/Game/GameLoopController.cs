@@ -13,7 +13,6 @@ public class GameLoopController : MonoBehaviour
   [SerializeField] private MockEnemyEvent enemyEvent;
   [SerializeField] private MockShopEvent shopEvent;
 
-
   [Header("Debug")]
   [SerializeField] private GameState initialGameState = GameState.Prepare;
 
@@ -40,7 +39,7 @@ public class GameLoopController : MonoBehaviour
     GameStateManager.OnStateChanged += OnStateChanged;
     BattleSystem.OnBattleEnded += OnBattleEnded;
     parnalSlider.OnPageChanged += NextWave;
-
+    parnalSlider.OnReachLastPage += EndGame;
     EnterInitialState();
   }
 
@@ -156,6 +155,10 @@ public class GameLoopController : MonoBehaviour
       yield return new WaitForSeconds(cutSceneDuration);
       NextWave(0);
     }
+  }
+  private void EndGame()
+  {
+    NextWave(0);
   }
 
   private void NextWave(int _)

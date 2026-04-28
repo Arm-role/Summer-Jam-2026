@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: PowderBottle
   m_EditorClassIdentifier: 
   itemName: PowderBottle
-  targetType: 3
+  targetType: 4
   actionType: 3
   value: 0
-  cooldown: 2
+  cooldown: 5
   statusEffectType: 1
-  duration: 5
-  effectStrength: 1
+  duration: 1.5
+  effectStrength: 0

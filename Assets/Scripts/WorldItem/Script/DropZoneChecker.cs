@@ -14,7 +14,7 @@ public class DropZoneChecker : MonoBehaviour
 
   public DropZone GetZoneAtMouse()
   {
-    Vector2 mousePos = UnityEngine.InputSystem.Mouse.current.position.value;
+    Vector2 mousePos = InputHelper.Position;
 
     if (IsInsideRect(worldZoneRect, mousePos)) return DropZone.World;
     if (IsInsideRect(inventoryZoneRect, mousePos)) return DropZone.Inventory;

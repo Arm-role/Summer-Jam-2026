@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using UnityEngine;
 
 public class BattleItemRunner
@@ -63,7 +63,8 @@ public class BattleItemRunner
       value = data.value,
       type = data.actionType,
       statusEffect = data.statusEffectType,
-      duration = data.duration
+      duration = data.duration,
+      effectStrength = data.effectStrength,
     };
 
     OnAction?.Invoke(log);
@@ -71,21 +72,25 @@ public class BattleItemRunner
 
   public void ApplyStatusEffect(
     StatusEffectType effect,
-    float duration)
+    float duration,
+    float effectStrength = 0f)
   {
     switch (effect)
     {
       case StatusEffectType.Freeze:
-
         freezeTimer = duration;
-
         break;
 
       case StatusEffectType.SlowAttack:
-
         slowTimer = duration;
-        slowMultiplier = 0.5f;
+        slowMultiplier = 1f - effectStrength; // 0.5 → speed 50%
+        break;
 
+      case StatusEffectType.SpeedUpCooldown:
+        modifierSystem?.ApplyModifier(
+            CooldownModifierType.SpeedUp,
+            effectStrength,
+            duration);
         break;
     }
 

@@ -47,9 +47,9 @@ public class InventoryTetrisManualPlacement : MonoBehaviour
   private void Update()
   {
     // Try to place
-    if (Mouse.current.leftButton.wasPressedThisFrame && placedObjectTypeSO != null)
+    if (InputHelper.PrimaryPressed && placedObjectTypeSO != null)
     {
-      RectTransformUtility.ScreenPointToLocalPointInRectangle(itemContainer, Mouse.current.position.value, null, out Vector2 anchoredPosition);
+      RectTransformUtility.ScreenPointToLocalPointInRectangle(itemContainer, InputHelper.Position, null, out Vector2 anchoredPosition);
 
       Vector2Int placedObjectOrigin = inventoryTetris.GetGridPosition(anchoredPosition);
 
@@ -62,44 +62,16 @@ public class InventoryTetrisManualPlacement : MonoBehaviour
       else
       {
         // Cannot build here
-        TooltipCanvas.ShowTooltip_Static("Cannot Build Here!");
-        FunctionTimer.Create(() => { TooltipCanvas.HideTooltip_Static(); }, 2f, "HideTooltip", true, true);
+        //TooltipCanvas.ShowTooltip_Static("Cannot Build Here!");
+        //FunctionTimer.Create(() => { TooltipCanvas.HideTooltip_Static(); }, 2f, "HideTooltip", true, true);
       }
     }
 
-    if (Keyboard.current.rKey.wasPressedThisFrame)
+    if (InputHelper.SecondaryPressed)
     {
       dir = PlacedObjectTypeSO.GetNextDir(dir);
     }
 
-
-    //if (Keyboard.current.digit1Key.wasPressedThisFrame) { placedObjectTypeSO = placedObjectTypeSOList[0]; RefreshSelectedObjectType(); }
-    //if (Keyboard.current.digit2Key.wasPressedThisFrame) { placedObjectTypeSO = placedObjectTypeSOList[1]; RefreshSelectedObjectType(); }
-    //if (Keyboard.current.digit3Key.wasPressedThisFrame) { placedObjectTypeSO = placedObjectTypeSOList[2]; RefreshSelectedObjectType(); }
-    //if (Keyboard.current.digit4Key.wasPressedThisFrame) { placedObjectTypeSO = placedObjectTypeSOList[3]; RefreshSelectedObjectType(); }
-    //if (Keyboard.current.digit5Key.wasPressedThisFrame) { placedObjectTypeSO = placedObjectTypeSOList[4]; RefreshSelectedObjectType(); }
-    //if (Keyboard.current.digit6Key.wasPressedThisFrame) { placedObjectTypeSO = placedObjectTypeSOList[5]; RefreshSelectedObjectType(); }
-    //if (Keyboard.current.digit7Key.wasPressedThisFrame) { placedObjectTypeSO = placedObjectTypeSOList[6]; RefreshSelectedObjectType(); }
-    //if (Keyboard.current.digit8Key.wasPressedThisFrame) { placedObjectTypeSO = placedObjectTypeSOList[7]; RefreshSelectedObjectType(); }
-
-    //if (Keyboard.current.digit0Key.wasPressedThisFrame) { DeselectObjectType(); }
-
-    // Demolish
-    /*
-    if (Mouse.current.rightButton.wasPressedThisFrame) {
-        Vector3 mousePosition = UtilsClass.GetMouseWorldPosition();
-        PlacedObject placedObject = grid.GetGridObject(mousePosition).GetPlacedObject();
-        if (placedObject != null) {
-            // Demolish
-            placedObject.DestroySelf();
-
-            List<Vector2Int> gridPositionList = placedObject.GetGridPositionList();
-            foreach (Vector2Int gridPosition in gridPositionList) {
-                grid.GetGridObject(gridPosition.x, gridPosition.y).ClearPlacedObject();
-            }
-        }
-    }
-    */
   }
 
   private void DeselectObjectType()
@@ -125,7 +97,7 @@ public class InventoryTetrisManualPlacement : MonoBehaviour
 
   public Vector2 GetCanvasSnappedPosition()
   {
-    RectTransformUtility.ScreenPointToLocalPointInRectangle(itemContainer, Mouse.current.position.value, null, out Vector2 anchoredPosition);
+    RectTransformUtility.ScreenPointToLocalPointInRectangle(itemContainer, InputHelper.Position, null, out Vector2 anchoredPosition);
     inventoryTetris.GetGrid().GetXY(anchoredPosition, out int x, out int y);
 
     if (placedObjectTypeSO != null)

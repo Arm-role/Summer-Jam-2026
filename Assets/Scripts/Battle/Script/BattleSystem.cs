@@ -15,15 +15,17 @@ public class BattleSystem : MonoBehaviour
 
   [Header("Battle Setup")]
   [SerializeField] private int playerMaxHp = 100;
-  [SerializeField] private Button bootButton;
   [SerializeField] private HPBar hpBar;
   [SerializeField] private GameLoopController gameLoopController;
 
   [Header("Floating Text")]
   [SerializeField] private FloatingTextConfig floatingTextConfig;
 
-  private FloatingTextService floatingTextService;
+  [Header("Particle Effect")]
+  [SerializeField] private ParticleEffectConfig particleEffectConfig;
 
+  private FloatingTextService floatingTextService;
+  private ParticleEffectService particleEffectService;
   // เพิ่ม field
   private CharacterView playerView;
 
@@ -52,10 +54,10 @@ public class BattleSystem : MonoBehaviour
       floatingTextConfig.Styles
     );
 
+    particleEffectService = new ParticleEffectService(particleEffectConfig.Styles);
+
     inventoryTetris.OnObjectPlaced += OnItemPlaced;
     inventoryTetris.OnObjectRemoved += OnItemRemoved;
-
-    bootButton.onClick.AddListener(BootEnergyDrink);
 
     GameStateManager.OnStateChanged += OnStateChanged;
   }
@@ -197,17 +199,6 @@ public class BattleSystem : MonoBehaviour
       foreach (var r in runners) r.Tick(dt);
   }
 
-  private void BootEnergyDrink()
-  {
-    if (!PlayerData.Instance.HasEnergyDrink) return;
-
-    PlayerData.Instance.ConsumeEnergyDrink();
-    modifierSystem.ApplyModifier(
-      CooldownModifierType.SpeedUp,
-      0.5f,
-      5f);
-  }
-
   private void OnItemPlaced(object sender, PlacedObject placedObject)
   {
     if (playerRunners.ContainsKey(placedObject)) return;
@@ -227,6 +218,9 @@ public class BattleSystem : MonoBehaviour
     runner.OnAction += ProcessAction;
     runner.OnCooldownProgress += p => placedObject.SetCooldownVisual(p);
     playerRunners.Add(placedObject, runner);
+
+    var tooltipTrigger = placedObject.gameObject.AddComponent<TooltipTrigger>();
+    tooltipTrigger.SetData(new BattleItemTooltipData(battleData));
   }
   private void OnItemRemoved(object sender, PlacedObject placedObject)
   {
@@ -311,11 +305,8 @@ public class BattleSystem : MonoBehaviour
       case BattleActionType.Damage:
         ApplyDamage(log, defender);
 
-        SpawnFloatingText(
-          FloatingTextType.Damage,
-          defender,
-          log.value
-        );
+        SpawnFloatingText(FloatingTextType.Damage, defender, log.value);
+        SpawnParticleEffect(log, defender, isPlayerAction);
 
         break;
 
@@ -387,8 +378,9 @@ public class BattleSystem : MonoBehaviour
     foreach (var runner in enemyRunners[defender])
     {
       runner.ApplyStatusEffect(
-        log.statusEffect,
-        log.duration);
+             log.statusEffect,
+             log.duration,
+             log.effectStrength);
 
       switch (log.statusEffect)
       {
@@ -432,6 +424,21 @@ public class BattleSystem : MonoBehaviour
       target.WorldPosition,
       value
     );
+  }
+
+  private void SpawnParticleEffect(BattleActionLog log, CombatUnit target, bool isPlayerAction)
+  {
+    if (target == null) return;
+
+    var key = new ParticleEffectKey(
+        itemName: log.item,
+        actionType: log.type,
+        ownerType: isPlayerAction ? OwnerType.Player : OwnerType.Enemy,
+        targetType: log.targetType,
+        statusEffectType: log.statusEffect
+    );
+
+    particleEffectService.Spawn(key, target.WorldPosition);
   }
 
   // ─────────────────────────────────────────

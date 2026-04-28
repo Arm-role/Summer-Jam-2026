@@ -17,3 +17,11 @@ MonoBehaviour:
     events:
     - type: 0
       enemyLevel: {fileID: 11400000, guid: 6da5a0e0bab10fc48a285bb27a1e56d5, type: 2}
+  - stageName: Temple
+    events:
+    - type: 0
+      enemyLevel: {fileID: 11400000, guid: 6da5a0e0bab10fc48a285bb27a1e56d5, type: 2}
+  - stageName: Temple
+    events:
+    - type: 0
+      enemyLevel: {fileID: 11400000, guid: 6da5a0e0bab10fc48a285bb27a1e56d5, type: 2}

@@ -28,9 +28,15 @@ MonoBehaviour:
     - type: 1
       enemyLevel: {fileID: 0}
     - type: 0
+      enemyLevel: {fileID: 11400000, guid: 5ef78dfc672972646b2eb9d178511272, type: 2}
+    - type: 1
+      enemyLevel: {fileID: 0}
+    - type: 0
       enemyLevel: {fileID: 11400000, guid: 660e69df997e0b64ab71064d34a3b527, type: 2}
   - stageName: Road
     events:
+    - type: 1
+      enemyLevel: {fileID: 0}
     - type: 0
       enemyLevel: {fileID: 11400000, guid: 660e69df997e0b64ab71064d34a3b527, type: 2}
     - type: 1
@@ -45,6 +51,8 @@ MonoBehaviour:
       enemyLevel: {fileID: 0}
     - type: 0
       enemyLevel: {fileID: 11400000, guid: e540f461a7affa84e800764927e669c9, type: 2}
+    - type: 1
+      enemyLevel: {fileID: 0}
     - type: 0
       enemyLevel: {fileID: 11400000, guid: 928472850293e1e4bb6bdc7c10fba3b7, type: 2}
     - type: 1
@@ -53,16 +61,24 @@ MonoBehaviour:
     events:
     - type: 0
       enemyLevel: {fileID: 11400000, guid: a8698fb8afcc3864eb757147f688d01c, type: 2}
+    - type: 1
+      enemyLevel: {fileID: 0}
     - type: 0
       enemyLevel: {fileID: 11400000, guid: 8a306b1d40336fc47964eaa6eb5970f8, type: 2}
+    - type: 1
+      enemyLevel: {fileID: 0}
     - type: 0
       enemyLevel: {fileID: 11400000, guid: a8698fb8afcc3864eb757147f688d01c, type: 2}
     - type: 1
       enemyLevel: {fileID: 0}
     - type: 0
       enemyLevel: {fileID: 11400000, guid: 8a306b1d40336fc47964eaa6eb5970f8, type: 2}
+    - type: 1
+      enemyLevel: {fileID: 0}
     - type: 0
       enemyLevel: {fileID: 11400000, guid: 8ebc31ca026c16a40b87886db180d321, type: 2}
+    - type: 1
+      enemyLevel: {fileID: 0}
     - type: 0
       enemyLevel: {fileID: 11400000, guid: 8ebc31ca026c16a40b87886db180d321, type: 2}
     - type: 1

@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Enemy2SO
   m_EditorClassIdentifier: 
   enemyName: Enemy2SO
-  hp: 30
+  hp: 120
   actions:
   - {fileID: 11400000, guid: 99e6c993a517a4d4eb4d9e0cd78788ea, type: 2}
-  - {fileID: 11400000, guid: 4930abf2539b32a49b9233b8c24644ae, type: 2}
+  - {fileID: 11400000, guid: 59142ab2ebb1c1f4a9e48ac7f2b463c2, type: 2}
   prefab: {fileID: 8083316154459770234, guid: 15566b2f69a714b46821b80e09958797, type: 3}
   spawnOffset: {x: 0, y: 0, z: 0}

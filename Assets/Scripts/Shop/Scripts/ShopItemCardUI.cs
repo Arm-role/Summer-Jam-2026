@@ -16,6 +16,7 @@ public class ShopItemCardUI : MonoBehaviour
   [SerializeField] private TMP_Text priceText;
   [SerializeField] private Button buyButton;
   [SerializeField] private ShopItemSO shopItem;
+  [SerializeField] private ItemBattleDataSO battleData;
 
   // ── Setup ─────────────────────────────────────────────────────────────────
 
@@ -31,6 +32,9 @@ public class ShopItemCardUI : MonoBehaviour
 
     if (PlayerData.Instance != null)
       PlayerData.Instance.OnGoldChanged += _ => RefreshAffordability();
+
+    var tooltipTrigger = gameObject.AddComponent<TooltipTrigger>();
+    tooltipTrigger.SetData(new ShopItemTooltipData(shopItem, battleData));
   }
 
   private void OnDestroy()

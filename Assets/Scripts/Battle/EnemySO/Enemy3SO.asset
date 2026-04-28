@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Enemy3SO
   m_EditorClassIdentifier: 
   enemyName: Enemy3SO
-  hp: 40
+  hp: 180
   actions:
   - {fileID: 11400000, guid: 99e6c993a517a4d4eb4d9e0cd78788ea, type: 2}
-  - {fileID: 11400000, guid: 99e6c993a517a4d4eb4d9e0cd78788ea, type: 2}
-  - {fileID: 11400000, guid: 43585066065a82047a8d819e2d1656fc, type: 2}
+  - {fileID: 11400000, guid: 59142ab2ebb1c1f4a9e48ac7f2b463c2, type: 2}
+  - {fileID: 11400000, guid: 926e04dd68039104dbe7f5e6073d53ac, type: 2}
   prefab: {fileID: 8083316154459770234, guid: 8d26c74f3c9260e409dc3609c6bf9e9d, type: 3}
   spawnOffset: {x: 0, y: 0, z: 0}

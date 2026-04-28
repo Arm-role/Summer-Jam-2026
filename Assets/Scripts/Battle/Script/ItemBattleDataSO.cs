@@ -12,7 +12,8 @@ public enum StatusEffectType
 {
   None,
   Freeze,
-  SlowAttack
+  SlowAttack,
+  SpeedUpCooldown
 }
 
 public enum TargetType
@@ -52,4 +53,5 @@ public struct BattleActionLog
   public BattleActionType type;
   public StatusEffectType statusEffect;
   public float duration;
+  public float effectStrength;
 }

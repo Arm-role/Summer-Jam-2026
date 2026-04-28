@@ -9,14 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e746848a65b50044a6e16adbce7da69, type: 3}
-  m_Name: Gun1
+  m_Script: {fileID: 11500000, guid: 22b9ce84ca7ea1f44bdee49a101904d0, type: 3}
+  m_Name: PlayerGunDamageEnemy
   m_EditorClassIdentifier: 
-  itemName: Gun1
-  targetType: 4
+  itemName: Gun
   actionType: 0
-  value: 10
-  cooldown: 1.2
+  ownerType: 0
+  targetType: 4
   statusEffectType: 0
-  duration: 0
-  effectStrength: 0
+  prefab: {fileID: 1082111769165123487, guid: 29c3a0e1da9b64b44ad1875e89c6ca6b, type: 3}

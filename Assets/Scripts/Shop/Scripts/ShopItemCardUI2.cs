@@ -1,41 +1,40 @@
-﻿using TMPro;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class ShopItemCardUI2 : MonoBehaviour
 {
+  [SerializeField] private ItemBattleDataSO consumable;
+  [SerializeField] private ShopItemSO shopItem;
+
   [SerializeField] private Button buyButton;
 
-  // ── Setup ─────────────────────────────────────────────────────────────────
-
-  public void Start()
+  private void Start()
   {
-    buyButton?.onClick.RemoveAllListeners();
-    buyButton?.onClick.AddListener(OnBuyClicked);
-
-    RefreshAffordability();
+    buyButton.onClick.AddListener(OnBuyClicked);
+    Refresh(PlayerData.Instance.Gold);
 
     if (PlayerData.Instance != null)
-      PlayerData.Instance.OnGoldChanged += _ => RefreshAffordability();
+      PlayerData.Instance.OnGoldChanged += Refresh;
+
+    var tooltipTrigger = gameObject.AddComponent<TooltipTrigger>();
+    tooltipTrigger.SetData(new ShopItemTooltipData(shopItem, consumable));
   }
 
   private void OnDestroy()
   {
     if (PlayerData.Instance != null)
-      PlayerData.Instance.OnGoldChanged -= _ => RefreshAffordability();
+      PlayerData.Instance.OnGoldChanged -= Refresh;
   }
-
-  // ── Internal ──────────────────────────────────────────────────────────────
 
   private void OnBuyClicked()
   {
-    if (PlayerData.Instance.TrySpend(30))
-      PlayerData.Instance?.TryBuyEnergyDrink();
+    if (PlayerData.Instance.TrySpend(shopItem.price))
+      PlayerData.Instance.AddConsumable(consumable);
   }
 
-  private void RefreshAffordability()
+  private void Refresh(int gold)
   {
-    bool can = PlayerData.Instance != null && PlayerData.Instance.CanAfford(30);
-    if (buyButton != null) buyButton.interactable = can;
+    if (buyButton != null)
+      buyButton.interactable = PlayerData.Instance.CanAfford(shopItem.price);
   }
 }

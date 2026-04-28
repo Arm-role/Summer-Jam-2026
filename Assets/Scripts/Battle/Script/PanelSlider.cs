@@ -8,18 +8,13 @@ public class PanelSlider : MonoBehaviour
   public event Action OnReachLastPage;
 
   [SerializeField] int maxPage;
+  [SerializeField] Vector3 pageStep;
+  [SerializeField] RectTransform levelPagesRect;
+  [SerializeField] float tweenTime;
+  [SerializeField] LeanTweenType tweenType;
 
   int currentPage;
-
   Vector3 targetPos;
-
-  [SerializeField] Vector3 pageStep;
-
-  [SerializeField] RectTransform levelPagesRect;
-
-  [SerializeField] float tweenTime;
-
-  [SerializeField] LeanTweenType tweenType;
 
   void Start()
   {
@@ -30,7 +25,11 @@ public class PanelSlider : MonoBehaviour
   public void Next()
   {
     if (currentPage >= maxPage)
+    {
+      Debug.Log($"Next page: {currentPage} == {maxPage}");
+      OnReachLastPage?.Invoke();
       return;
+    }
 
     currentPage++;
 

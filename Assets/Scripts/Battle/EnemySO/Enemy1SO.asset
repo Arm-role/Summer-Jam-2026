@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Enemy1SO
   m_EditorClassIdentifier: 
   enemyName: Enemy1SO
-  hp: 50
+  hp: 60
   actions:
   - {fileID: 11400000, guid: 99e6c993a517a4d4eb4d9e0cd78788ea, type: 2}
   prefab: {fileID: 8083316154459770234, guid: 641fb256b89e22c439020dc8687540c8, type: 3}

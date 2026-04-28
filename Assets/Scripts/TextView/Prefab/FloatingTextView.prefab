@@ -65,10 +65,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 1223
+  m_text: qwertyuiop
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: cd2351a891c3c2c4cb1e8387621a49e3, type: 2}
-  m_sharedMaterial: {fileID: -7218989583548252637, guid: cd2351a891c3c2c4cb1e8387621a49e3, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: c6f6a1cc18d26c0459394a866bbd5f7b, type: 2}
+  m_sharedMaterial: {fileID: -5827365014422499244, guid: c6f6a1cc18d26c0459394a866bbd5f7b, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -219,7 +219,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &5647366523459930582
 MonoBehaviour:
   m_ObjectHideFlags: 0

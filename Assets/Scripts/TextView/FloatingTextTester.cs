@@ -17,7 +17,7 @@ public class FloatingTextTester : MonoBehaviour
 
   private async void Update()
   {
-    if (Mouse.current.leftButton.wasPressedThisFrame)
+    if (InputHelper.PrimaryPressed)
     {
       Vector3 worldPos = GetMouseWorldPosition();
 
@@ -28,7 +28,7 @@ public class FloatingTextTester : MonoBehaviour
       );
     }
 
-    if (Mouse.current.rightButton.wasPressedThisFrame)
+    if (InputHelper.SecondaryPressed)
     {
       Vector3 worldPos = GetMouseWorldPosition();
 

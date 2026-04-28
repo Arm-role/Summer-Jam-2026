@@ -46,7 +46,7 @@ public class InventoryTetrisDropToWorld : MonoBehaviour
     RectTransformUtility
         .ScreenPointToLocalPointInRectangle(
             inventory.GetItemContainer(),
-            Mouse.current.position.value,
+            InputHelper.Position,
             null,
             out Vector2 anchoredPos);
 
@@ -69,7 +69,7 @@ public class InventoryTetrisDropToWorld : MonoBehaviour
   {
     if (itemTetrisSO == null) return;
 
-    Vector3 worldPos = ScreenToWorld(Mouse.current.position.value);
+    Vector3 worldPos = ScreenToWorld(InputHelper.Position);
     worldPos += spawnOffset;
 
     DroppedWorldItem.Spawn(itemTetrisSO, worldPos);

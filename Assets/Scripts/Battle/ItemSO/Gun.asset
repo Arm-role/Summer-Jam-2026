@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9e746848a65b50044a6e16adbce7da69, type: 3}
-  m_Name: Enemy_WhiteClay
+  m_Name: Gun
   m_EditorClassIdentifier: 
-  itemName: Enemy_WhiteClay
+  itemName: Gun
   targetType: 4
   actionType: 0
-  value: 15
+  value: 10
   cooldown: 1.2
   statusEffectType: 0
   duration: 0

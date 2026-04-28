@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7473301955526418213}
   - component: {fileID: 4576434247306882972}
   m_Layer: 0
-  m_Name: Gun1World
+  m_Name: GunWorld
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

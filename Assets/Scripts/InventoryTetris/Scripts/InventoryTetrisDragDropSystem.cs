@@ -34,7 +34,7 @@ public class InventoryTetrisDragDropSystem : MonoBehaviour
 
   private void Update()
   {
-    if (Keyboard.current.rKey.wasPressedThisFrame)
+    if (InputHelper.SecondaryPressed)
     {
       dir = PlacedObjectTypeSO.GetNextDir(dir);
       if (draggingPlacedObject != null)
@@ -43,7 +43,7 @@ public class InventoryTetrisDragDropSystem : MonoBehaviour
 
     if (draggingPlacedObject != null)
     {
-      RectTransformUtility.ScreenPointToLocalPointInRectangle(draggingInventoryTetris.GetItemContainer(), Mouse.current.position.value, null, out Vector2 targetPosition);
+      RectTransformUtility.ScreenPointToLocalPointInRectangle(draggingInventoryTetris.GetItemContainer(), InputHelper.Position, null, out Vector2 targetPosition);
       targetPosition += new Vector2(-mouseDragAnchoredPositionOffset.x, -mouseDragAnchoredPositionOffset.y);
 
       Vector2Int rotationOffset = draggingPlacedObject.GetPlacedObjectTypeSO().GetRotationOffset(dir);
@@ -67,7 +67,7 @@ public class InventoryTetrisDragDropSystem : MonoBehaviour
 
     Cursor.visible = false;
 
-    RectTransformUtility.ScreenPointToLocalPointInRectangle(inventoryTetris.GetItemContainer(), Mouse.current.position.value, null, out Vector2 anchoredPosition);
+    RectTransformUtility.ScreenPointToLocalPointInRectangle(inventoryTetris.GetItemContainer(), InputHelper.Position, null, out Vector2 anchoredPosition);
     Vector2Int mouseGridPosition = inventoryTetris.GetGridPosition(anchoredPosition);
 
     mouseDragGridPositionOffset = mouseGridPosition - placedObject.GetGridPosition();
@@ -92,7 +92,7 @@ public class InventoryTetrisDragDropSystem : MonoBehaviour
 
     foreach (InventoryTetris inventoryTetris in inventoryTetrisList)
     {
-      Vector3 screenPoint = Mouse.current.position.value;
+      Vector3 screenPoint = InputHelper.Position;
       RectTransformUtility.ScreenPointToLocalPointInRectangle(inventoryTetris.GetItemContainer(), screenPoint, null, out Vector2 anchoredPosition);
       Vector2Int placedObjectOrigin = inventoryTetris.GetGridPosition(anchoredPosition);
       placedObjectOrigin = placedObjectOrigin - mouseDragGridPositionOffset;
@@ -106,7 +106,7 @@ public class InventoryTetrisDragDropSystem : MonoBehaviour
 
     if (toInventoryTetris != null)
     {
-      Vector3 screenPoint = Mouse.current.position.value;
+      Vector3 screenPoint = InputHelper.Position;
       RectTransformUtility.ScreenPointToLocalPointInRectangle(toInventoryTetris.GetItemContainer(), screenPoint, null, out Vector2 anchoredPosition);
       Vector2Int placedObjectOrigin = toInventoryTetris.GetGridPosition(anchoredPosition);
       placedObjectOrigin = placedObjectOrigin - mouseDragGridPositionOffset;
@@ -115,8 +115,6 @@ public class InventoryTetrisDragDropSystem : MonoBehaviour
 
       if (!tryPlaceItem)
       {
-        TooltipCanvas.ShowTooltip_Static("Cannot Drop Item Here!");
-        FunctionTimer.Create(() => { TooltipCanvas.HideTooltip_Static(); }, 2f, "HideTooltip", true, true);
         fromInventoryTetris.TryPlaceItem(placedObject.GetPlacedObjectTypeSO() as ItemTetrisSO, placedObject.GetGridPosition(), placedObject.GetDir());
       }
     }

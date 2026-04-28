@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Enemy_NamOb
   m_EditorClassIdentifier: 
   itemName: Enemy_NamOb
-  targetType: 4
+  targetType: 0
   actionType: 1
   value: 10
-  cooldown: 4
+  cooldown: 1.5
   statusEffectType: 0
   duration: 0
   effectStrength: 0
